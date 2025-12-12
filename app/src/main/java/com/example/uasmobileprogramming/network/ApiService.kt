@@ -1,6 +1,8 @@
 package com.example.uasmobileprogramming.network
 
+import com.example.uasmobileprogramming.model.EventRequest
 import com.example.uasmobileprogramming.model.EventResponse
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -8,31 +10,12 @@ interface ApiService {
     @GET("api.php")
     fun getAllEvents(): Call<EventResponse>
 
-    @FormUrlEncoded
     @POST("api.php")
-    fun createEvent(
-        @Field("title") title: String,
-        @Field("date") date: String,
-        @Field("time") time: String,
-        @Field("location") location: String,
-        @Field("description") description: String?,
-        @Field("capacity") capacity: Int?,
-        @Field("status") status: String
-    ): Call<EventResponse>
+    fun createEvent(@Body request: EventRequest): Call<ResponseBody>
+
+    @PUT("api.php")
+    fun updateEvent(@Query("id") id: String, @Body request: EventRequest): Call<ResponseBody>
 
     @DELETE("api.php")
-    fun deleteEvent(@Query("id") id: String): Call<EventResponse>
-
-    @FormUrlEncoded
-    @PUT("api.php")
-    fun updateEvent(
-        @Query("id") id: String,
-        @Field("title") title: String,
-        @Field("date") date: String,
-        @Field("time") time: String,
-        @Field("location") location: String,
-        @Field("description") description: String?,
-        @Field("capacity") capacity: Int?,
-        @Field("status") status: String
-    ): Call<EventResponse>
+    fun deleteEvent(@Query("id") id: String): Call<ResponseBody>
 }
